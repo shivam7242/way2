@@ -64,7 +64,6 @@ void solve() {
     }
   }
 
-
   vpr store;
   ll val = n * m;
   priority_queue<pair<ll, pair<ll, ll>>, vector<pair<ll, pair<ll, ll>>>,
@@ -90,6 +89,8 @@ void solve() {
         ll sub = pq.top().first;
         vpr call1, call2;
         ll add = 0;
+
+          
         while (!pq.empty()) {
           ll value = pq.top().first;
           ll row = pq.top().second.first;
@@ -107,17 +108,19 @@ void solve() {
             pq1.push({v[row][col], {row, col}});
           }
         }
+
+
         for (ll i = 0; i < call1.size(); i++) {
           ghata = 0;
           dfs(call1[i].first, call1[i].second, vis, v);
           add += ghata;
         }
+
         for (ll i = 0; i < call2.size(); i++) {
           ghata = 0;
           dfs(call2[i].first, call2[i].second, vis, v);
           add += ghata;
         }
-    
 
         val -= add;
         if (add == 0) {

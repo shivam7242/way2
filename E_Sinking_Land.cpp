@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 #include <cstdlib>
 #include <functional>
+#include <iterator>
 #include <queue>
 using namespace std;
 const unsigned int M = 1000000007;
@@ -55,7 +56,6 @@ void dfs(ll row, ll col, vector<vl> &vis, vector<vl> &v) {
 void solve() {
   ll n, m, k;
   cin >> n >> m >> k;
-  ;
   vector<vector<ll>> v(n, vl(m));
   vector<vector<ll>> vis(n, vl(m, 0));
   for (ll i = 0; i < n; i++) {
@@ -63,7 +63,7 @@ void solve() {
       cin >> v[i][j];
     }
   }
-
+  
   vpr store;
   ll val = n * m;
   priority_queue<pair<ll, pair<ll, ll>>, vector<pair<ll, pair<ll, ll>>>,
@@ -90,7 +90,6 @@ void solve() {
         vpr call1, call2;
         ll add = 0;
 
-          
         while (!pq.empty()) {
           ll value = pq.top().first;
           ll row = pq.top().second.first;
@@ -108,7 +107,6 @@ void solve() {
             pq1.push({v[row][col], {row, col}});
           }
         }
-
 
         for (ll i = 0; i < call1.size(); i++) {
           ghata = 0;

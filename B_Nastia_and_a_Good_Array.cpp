@@ -30,33 +30,28 @@ typedef long long ll;
 #define pr pair<ll, ll>
 #define intmax 1e18
 #define intmin -1e18
-#define input(v, n)                   \
-  vector<ll> v(n);                    \
-  for (auto i = 0; i < v.size(); i++) \
-  {                                   \
-    cin >> v[i];                      \
+#define input(v, n)                                                            \
+  vector<ll> v(n);                                                             \
+  for (auto i = 0; i < v.size(); i++) {                                        \
+    cin >> v[i];                                                               \
   }
-#define output(v)     \
-  for (auto k : v)    \
-  {                   \
-    cout << k << " "; \
-  }                   \
+#define output(v)                                                              \
+  for (auto k : v) {                                                           \
+    cout << k << " ";                                                          \
+  }                                                                            \
   cout << "\n";
 
 #define MAXN 100001
 int spf[MAXN];
-void sieve()
-{
+void sieve() {
   spf[1] = 1;
   for (int i = 2; i < MAXN; i++)
     spf[i] = i;
   for (int i = 4; i < MAXN; i += 2)
     spf[i] = 2;
 
-  for (int i = 3; i * i < MAXN; i++)
-  {
-    if (spf[i] == i)
-    {
+  for (int i = 3; i * i < MAXN; i++) {
+    if (spf[i] == i) {
       for (int j = i * i; j < MAXN; j += i)
         if (spf[j] == j)
           spf[j] = i;
@@ -65,15 +60,12 @@ void sieve()
 }
 
 vector<ll> primes;
-void SieveOfEratosthenes(int n)
-{
+void SieveOfEratosthenes(int n) {
   bool prime[n + 1];
   memset(prime, true, sizeof(prime));
 
-  for (int p = 2; p * p <= n; p++)
-  {
-    if (prime[p] == true)
-    {
+  for (int p = 2; p * p <= n; p++) {
+    if (prime[p] == true) {
       for (int i = p * p; i <= n; i += p)
         prime[i] = false;
     }
@@ -83,13 +75,10 @@ void SieveOfEratosthenes(int n)
       primes.push_back(p);
 }
 
-unsigned long long power(unsigned long long x,
-                         int y, int p)
-{
+unsigned long long power(unsigned long long x, int y, int p) {
   unsigned long long res = 1;
   x = x % p;
-  while (y > 0)
-  {
+  while (y > 0) {
     if (y & 1)
       res = (res * x) % p;
 
@@ -99,14 +88,10 @@ unsigned long long power(unsigned long long x,
   return res;
 }
 
-unsigned long long modInverse(unsigned long long n,
-                              int p)
-{
+unsigned long long modInverse(unsigned long long n, int p) {
   return power(n, p - 2, p);
 }
-unsigned long long nCrModPFermat(unsigned long long n,
-                                 int r, int p)
-{
+unsigned long long nCrModPFermat(unsigned long long n, int r, int p) {
   if (n < r)
     return 0;
   if (r == 0)
@@ -116,13 +101,12 @@ unsigned long long nCrModPFermat(unsigned long long n,
   for (int i = 1; i <= n; i++)
     fac[i] = (fac[i - 1] * i) % p;
 
-  return (fac[n] * modInverse(fac[r], p) % p * modInverse(fac[n - r], p) % p) % p;
+  return (fac[n] * modInverse(fac[r], p) % p * modInverse(fac[n - r], p) % p) %
+         p;
 }
-ll expo(ll a, ll b, ll m)
-{
+ll expo(ll a, ll b, ll m) {
   ll res = 1;
-  while (b > 0)
-  {
+  while (b > 0) {
     if (b & 1)
       res = (res * a) % m;
     a = (a * a) % m;
@@ -132,36 +116,30 @@ ll expo(ll a, ll b, ll m)
 }
 
 ll mminvprime(ll a, ll b) { return expo(a, b - 2, b); }
-ll mod_add(ll a, ll b, ll m)
-{
+ll mod_add(ll a, ll b, ll m) {
   a = a % m;
   b = b % m;
   return (((a + b) % m) + m) % m;
 }
-ll mod_mul(ll a, ll b, ll m)
-{
+ll mod_mul(ll a, ll b, ll m) {
   a = a % m;
   b = b % m;
   return (((a * b) % m) + m) % m;
 }
-ll mod_sub(ll a, ll b, ll m)
-{
+ll mod_sub(ll a, ll b, ll m) {
   a = a % m;
   b = b % m;
   return (((a - b) % m) + m) % m;
 }
-ll mod_div(ll a, ll b, ll m)
-{
+ll mod_div(ll a, ll b, ll m) {
   a = a % m;
   b = b % m;
   return (mod_mul(a, mminvprime(b, m), m) + m) % m;
 }
-long long binpowm(long long a, long long b, long long m)
-{
+long long binpowm(long long a, long long b, long long m) {
   a %= m;
   long long res = 1;
-  while (b > 0)
-  {
+  while (b > 0) {
     if (b & 1)
       res = res * a % m;
     a = a * a % m;
@@ -169,23 +147,19 @@ long long binpowm(long long a, long long b, long long m)
   }
   return res;
 }
-void make_set(ll v, vl &parent, vl &size)
-{
+void make_set(ll v, vl &parent, vl &size) {
   parent[v] = v;
   size[v] = 1;
 }
-ll find_set(ll v, vl &parent)
-{
+ll find_set(ll v, vl &parent) {
   if (v == parent[v])
     return v;
   return parent[v] = find_set(parent[v], parent);
 }
-void union_sets(ll a, ll b, vl &parent, vl &size)
-{
+void union_sets(ll a, ll b, vl &parent, vl &size) {
   a = find_set(a, parent);
   b = find_set(b, parent);
-  if (a != b)
-  {
+  if (a != b) {
     if (size[a] < size[b])
       swap(a, b);
     parent[b] = a;
@@ -193,26 +167,24 @@ void union_sets(ll a, ll b, vl &parent, vl &size)
   }
 }
 
-ll gcd(ll a, ll b)
-{
-  return b ? gcd(b, a % b) : a;
-}
+ll gcd(ll a, ll b) { return b ? gcd(b, a % b) : a; }
 
-ll lcm(ll v, ll b)
-{
-  return (v * b) / gcd(v, b);
-}
+ll lcm(ll v, ll b) { return (v * b) / gcd(v, b); }
 
 template <typename L, typename R>
-ostream &operator<<(ostream &out, const pair<L, R> &p)
-{
+ostream &operator<<(ostream &out, const pair<L, R> &p) {
   out << '(' << p.first << ',' << p.second << ')';
   return out;
 }
 
-template <typename T>
-ostream &operator<<(ostream &out, const vector<T> &v)
-{
+template <typename T> ostream &operator<<(ostream &out, const vector<T> &v) {
+  for (auto &i : v)
+    out << i << ' ';
+  el;
+  return out;
+}
+
+template <typename T> ostream &operator<<(ostream &out, const set<T> &v) {
   for (auto &i : v)
     out << i << ' ';
   el;
@@ -220,17 +192,7 @@ ostream &operator<<(ostream &out, const vector<T> &v)
 }
 
 template <typename T>
-ostream &operator<<(ostream &out, const set<T> &v)
-{
-  for (auto &i : v)
-    out << i << ' ';
-  el;
-  return out;
-}
-
-template <typename T>
-ostream &operator<<(ostream &out, const unordered_set<T> &v)
-{
+ostream &operator<<(ostream &out, const unordered_set<T> &v) {
   for (auto &i : v)
     out << i << ' ';
   el;
@@ -238,11 +200,9 @@ ostream &operator<<(ostream &out, const unordered_set<T> &v)
 }
 
 template <typename K, typename V>
-ostream &operator<<(ostream &out, const map<K, V> &m)
-{
+ostream &operator<<(ostream &out, const map<K, V> &m) {
   out << '[';
-  for (auto &[k, v] : m)
-  {
+  for (auto &[k, v] : m) {
     out << k << ':' << v << " ";
   }
   out << "]\n";
@@ -250,29 +210,106 @@ ostream &operator<<(ostream &out, const map<K, V> &m)
 }
 
 template <typename K, typename V>
-ostream &operator<<(ostream &out, const unordered_map<K, V> &m)
-{
+ostream &operator<<(ostream &out, const unordered_map<K, V> &m) {
   out << '[';
-  for (auto &[k, v] : m)
-  {
+  for (auto &[k, v] : m) {
     out << k << ':' << v << " ";
   }
   out << "]\n";
   return out;
 }
 
-void solve()
-{
+
+class Solution {
+public:
+  int minChanges(vector<int> &nums, int k) {
+    map<int, int> mm;
+    int n = nums.size();
+    for (int i = 0; i < n / 2; i++) {
+      mm[abs(nums[i] - nums[n - i - 1])]++;
+    }
+    map<int, vector<int>> mm1;
+
+    for (auto it : mm) {
+      mm1[it.second].push_back(it.first);
+    }
+
+    for (auto &it : mm1) {
+      sort(it.second.begin(), it.second.end());
+    }
+
+    int diff = mm1.rbegin()->second[0];
+
+    int ans = 0;
+
+    for (int i = 0; i < n / 2; i++) {
+      if (abs(nums[i] - nums[n - i - 1]) != diff) {
+
+        int a1 = abs(nums[i] - 0);
+        int a2 = abs(nums[i] - k);
+        int a3 = abs(nums[n - i - 1] - 0);
+        int a4 = abs(nums[n - i - 1] - k);
+
+        if (a1 >= diff || a2 >= diff || a3 >= diff || a4 >= diff) {
+          ans++;
+        } else {
+          ans += 2;
+        }
+      }
+    }
+
+    for (auto it : mm) {
+      cout << it.first << " " << it.second << endl;
+    }
+    for (auto it : mm1) {
+      cout << it.first << "->";
+      for (auto it1 : it.second) {
+        cout << it1 << " ";
+      }
+    }
+
+    int diff1 = 0;
+    if (mm1.size() == 2) {
+      auto it = mm1.begin();
+      diff1 = it->second[0];
+
+    } else if (mm1.size() > 2) {
+      auto it = mm1.rbegin();
+      it--;
+
+      diff1 = it->second[0];
+    }
+    
+    int ans2 = 0;
+
+    for (int i = 0; i < n / 2; i++) {
+      if (abs(nums[i] - nums[n - i - 1]) != diff1) {
+
+        int a1 = abs(nums[i] - 0);
+        int a2 = abs(nums[i] - k);
+        int a3 = abs(nums[n - i - 1] - 0);
+        int a4 = abs(nums[n - i - 1] - k);
+
+        if (a1 >= diff1 || a2 >= diff1 || a3 >= diff1 || a4 >= diff1) {
+          ans2++;
+        } else {
+          ans2 += 2;
+        }
+      }
+    }
+    return min(ans, ans2);
+  }
+};
+
+void solve() {
 
   ll n;
   cin >> n;
   ll minval = INT_MAX, ind = -1;
   vl arr(n);
-  for (ll i = 0; i < n; i++)
-  {
+  for (ll i = 0; i < n; i++) {
     cin >> arr[i];
-    if (arr[i] < minval)
-    {
+    if (arr[i] < minval) {
       minval = arr[i];
       ind = i;
     }
@@ -280,8 +317,7 @@ void solve()
 
   ll ct = 1;
   vector<vector<ll>> v;
-  for (ll i = ind + 1; i < n; i++)
-  {
+  for (ll i = ind + 1; i < n; i++) {
     vl v1;
     v1.pb(ind + 1);
     v1.pb(i + 1);
@@ -291,8 +327,7 @@ void solve()
     v.pb(v1);
   }
   ct = 1;
-  for (ll i = ind - 1; i >= 0; i--)
-  {
+  for (ll i = ind - 1; i >= 0; i--) {
     vl v1;
     v1.pb(ind + 1);
     v1.pb(i + 1);
@@ -302,24 +337,21 @@ void solve()
     v.pb(v1);
   }
   cout << n - 1 << endl;
-  for (int i = 0; i < n; ++i)
-  {
+  for (int i = 0; i < n; ++i) {
     if (i == ind)
       continue;
-    cout << ind + 1 << ' ' << i + 1 << ' ' << minval << ' ' << minval + abs(i - ind) << "\n";
+    cout << ind + 1 << ' ' << i + 1 << ' ' << minval << ' '
+         << minval + abs(i - ind) << "\n";
   }
-  
 }
 
-int main()
-{
+int main() {
   ios_base::sync_with_stdio(0);
   cin.tie(NULL);
 
   int t = 1;
   cin >> t;
-  while (t--)
-  {
+  while (t--) {
     solve();
   }
   return 0;
